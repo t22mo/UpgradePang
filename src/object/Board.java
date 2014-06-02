@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class Board {
 	static Texture tex;
@@ -86,6 +87,17 @@ public class Board {
 	public static void setGem(Gem gem,int x,int y)
 	{
 		board[x][y] = gem;
+	}
+	public static void swap(Vector2 main,Vector2 target)
+	{
+		Gem temp = board[ (int)main.x ][ (int)main.y ];
+		board[ (int)main.x ][ (int)main.y ] = board[ (int)target.x ][ (int)target.y ];
+		board[ (int)target.x ][ (int)target.y ] = temp;
+		
+		board[ (int)main.x ][ (int)main.y ].bx = (int)main.x;
+		board[ (int)main.x ][ (int)main.y ].by = (int)main.y;
+		board[ (int)target.x ][ (int)target.y ].bx = (int)target.x;
+		board[ (int)target.x ][ (int)target.y ].by = (int)target.y;
 	}
 	
 }

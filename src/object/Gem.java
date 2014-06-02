@@ -20,6 +20,7 @@ public class Gem {
 		boolean lock; //모션중이거나 하면 해당 객체를 잠금 
 		boolean focused;
 		boolean anim;
+		boolean destroyed = false;
 		
 		Vector2 destination; // 목표 좌표
 		int dx,dy;
@@ -145,5 +146,11 @@ public class Gem {
 			res.setFocused(this.focused);
 			res.setLock(this.lock);
 			return res;
+		}
+		public void setDestroyed(boolean des) {
+			this.destroyed = des;
+		}
+		public boolean isDestroyed() {
+			return destroyed;
 		}
 	}

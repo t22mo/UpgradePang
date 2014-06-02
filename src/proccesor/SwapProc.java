@@ -31,25 +31,29 @@ public class SwapProc {
 		{
 			if(queue.get(i).endTime<elapsedTime)
 			{
-				if(false)
+				if(queue.get(i).type==0)
 				{
-					Gem temp1 = Board.getGem(queue.get(i).mainx,queue.get(i).mainy);
-					Gem temp2 = Board.getGem(queue.get(i).targetx,queue.get(i).targety);
-
-					Board.setGem(new Gem(temp2.getType(),queue.get(i).mainx,queue.get(i).mainy),queue.get(i).mainx,queue.get(i).mainy);
-					Board.setGem(new Gem(temp1.getType(),queue.get(i).targetx,queue.get(i).targety),queue.get(i).targetx,queue.get(i).targety);
-					temp1.setLock(false);
-					temp2.setLock(false);
-				}
-				else
-				{
-					if(queue.get(i).type==0)
-						doSwap(Board.getGem(queue.get(i).mainx,queue.get(i).mainy),Board.getGem(queue.get(i).targetx,queue.get(i).targety),elapsedTime,1);
+					Board.swap(new Vector2(queue.get(i).mainx,queue.get(i).mainy),new Vector2(queue.get(i).targetx,queue.get(i).targety));
+					int res1 = DestroyProc.CheckDestruction(queue.get(i).targetx,queue.get(i).targety);
+					int res2 = DestroyProc.CheckDestruction(queue.get(i).mainx,queue.get(i).mainy);
+					
+					if(res1==0 && res2==0)
+					{
+						Board.swap(new Vector2(queue.get(i).mainx,queue.get(i).mainy),new Vector2(queue.get(i).targetx,queue.get(i).targety));
+						doSwap(Board.getGem(queue.get(i).mainx,queue.get(i).mainy),Board.getGem(queue.get(i).targetx,queue.get(i).targety),elapsedTime,1);						
+					}
 					else
 					{
 						Board.getGem(queue.get(i).mainx,queue.get(i).mainy).setLock(false);
 						Board.getGem(queue.get(i).targetx,queue.get(i).targety).setLock(false);
+						DestroyProc.DestroyAtPoint(res1,queue.get(i).mainx,queue.get(i).mainy);
+						DestroyProc.DestroyAtPoint(res2,queue.get(i).targetx,queue.get(i).targety);
 					}
+				}
+				else
+				{
+					Board.getGem(queue.get(i).mainx,queue.get(i).mainy).setLock(false);
+					Board.getGem(queue.get(i).targetx,queue.get(i).targety).setLock(false);
 				}
 				queue.remove(i);
 				i--;
